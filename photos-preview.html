@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>likelikya — Photos preview (wall theme + Commons photography)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style-wall.css" />
+<style>
+  /* tiny attribution line under each stone-frame caption */
+  .attr {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 0.72rem;
+    color: #6E5F49;
+    letter-spacing: 0.02em;
+  }
+  .attr a { color: #6E5F49; border-bottom-color: rgba(110, 95, 73, 0.3); }
+  .attr a:hover { color: #8B5A2B; }
+
+  /* Force the photo placeholders to use real aspect ratios — let images breathe */
+  .stone-frame .photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid #5C4F3D;
+    border-radius: 1px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-edge-right" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">like<span>likya</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">≡</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Original</a></li>
+      <li><a href="wall-preview.html">Wall theme</a></li>
+      <li><a href="photos-preview.html">Photos</a></li>
+      <li><a href="map-preview.html">Map</a></li>
+      <li><a href="explore.html">Explore</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+    <div class="meta">Wall theme · real photography</div>
+    <h1>Lycia, photographed</h1>
+    <p class="tagline">
+      Twelve cities, one lead image each, pulled live from Wikimedia Commons
+      with full attribution. Each photo sits in the limestone frame we built
+      earlier — mortar border, inset shadow, niche feel.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="text-center">
+      <span class="section-eyebrow">Ancient cities</span>
+      <h2>One photo per place</h2>
+      <div class="divider">✦</div>
+    </div>
+    <p class="section-intro">
+      All twelve images are Creative Commons-licensed; the credit line under
+      each photo links to the original Commons page. Replace any of these
+      with your own photography by swapping the file in
+      <code>assets/images/&lt;slug&gt;/</code>.
+    </p>
+
+    <div class="gallery-row">
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Hellenistic theatre at Antiphellos, modern Kaş"
+             src="assets/images/antiphellos/1920px-Antiphellus_Ancient_Theatre_-_2014.10_-_panoramio_lead.jpg" />
+        <figcaption>
+          The Hellenistic theatre above Kaş harbour, with Meis on the horizon.
+          <span class="attr">Antiphellos · <a href="https://commons.wikimedia.org/wiki/File:Antiphellus_Ancient_Theatre_-_2014.10_-_panoramio.jpg" target="_blank" rel="noopener">rheins</a>, CC BY 3.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Kekova island and Kaleköy village"
+             src="assets/images/kekova/1920px-Kekova_island_and_Kalekoey_village_lead.jpg" />
+        <figcaption>
+          The Simena fortress looking south over Kaleköy and the Kekova strait.
+          <span class="attr">Kekova · <a href="https://commons.wikimedia.org/wiki/File:Kekova_island_and_Kalekoey_village.jpg" target="_blank" rel="noopener">Bjørn Christian Tørrissen</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Podium of the Nereid Monument, Xanthos"
+             src="assets/images/xanthos/Xanthus,_tomb_of_the_Nereids,_podium_lead.jpg" />
+        <figcaption>
+          The podium of the Nereid Monument at Xanthos.
+          <span class="attr">Xanthos · <a href="https://commons.wikimedia.org/wiki/File:Xanthus,_tomb_of_the_Nereids,_podium.jpg" target="_blank" rel="noopener">Jona Lendering</a>, CC0</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div class="gallery-row">
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Patara ruins — sarcophagus and Northern City Gate"
+             src="assets/images/patara/1920px-Patara_Ruins_(7023429755)_lead.jpg" />
+        <figcaption>
+          Lycian sarcophagus at the Northern City Gate, Patara.
+          <span class="attr">Patara · <a href="https://commons.wikimedia.org/wiki/File:Patara_Ruins_%287023429755%29.jpg" target="_blank" rel="noopener">William Neuheisel</a>, CC BY 2.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Aerial view of Olympos from the west"
+             src="assets/images/olympos/1920px-Aerial_View_of_Olympus_(Lycia)_from_the_west_lead.jpg" />
+        <figcaption>
+          Olympos from the air, the river running through the wooded ravine.
+          <span class="attr">Olympos · <a href="https://commons.wikimedia.org/wiki/File:Aerial_View_of_Olympus_%28Lycia%29_from_the_west.jpg" target="_blank" rel="noopener">Seckinevcim</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Theatre at Termessos"
+             src="assets/images/termessos/1920px-Termessos_-_Theater_lead.jpg" />
+        <figcaption>
+          The cliff-edge theatre at Termessos, 1,050 m above the Pamphylian plain.
+          <span class="attr">Termessos · <a href="https://commons.wikimedia.org/wiki/File:Termessos_-_Theater.jpg" target="_blank" rel="noopener">Ingo Mehling</a>, CC BY-SA 3.0</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div class="gallery-row">
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Tomb of Amyntas, Telmessos (Fethiye)"
+             src="assets/images/telmessos/1920px-Tomb_of_Amyntas_2020-03-15-2_lead.jpg" />
+        <figcaption>
+          The rock-cut Tomb of Amyntas above Fethiye harbour.
+          <span class="attr">Telmessos · <a href="https://commons.wikimedia.org/wiki/File:Tomb_of_Amyntas_2020-03-15-2.jpg" target="_blank" rel="noopener">Alexey Komarov</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Theatre at Pinara"
+             src="assets/images/pinara/1920px-Theater_Pinara_Türkei_lead.JPG" />
+        <figcaption>
+          The wooded theatre of Pinara, beneath its honeycomb cliff.
+          <span class="attr">Pinara · <a href="https://commons.wikimedia.org/wiki/File:Theater_Pinara_T%C3%BCrkei.JPG" target="_blank" rel="noopener">Gisela s</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Stadium at Tlos"
+             src="assets/images/tlos/1920px-Tlos_Stadium_4152_lead.jpg" />
+        <figcaption>
+          The 137-metre stadium at Tlos, with the acropolis hill behind.
+          <span class="attr">Tlos · <a href="https://commons.wikimedia.org/wiki/File:Tlos_Stadium_4152.jpg" target="_blank" rel="noopener">Dosseman</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div class="gallery-row">
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Main street at Phaselis"
+             src="assets/images/phaselis/Phaselis_axb01_lead.jpg" />
+        <figcaption>
+          The colonnaded main street at Phaselis, between two harbours.
+          <span class="attr">Phaselis · <a href="https://commons.wikimedia.org/wiki/File:Phaselis_axb01.jpg" target="_blank" rel="noopener">Alexander Buschorn</a>, CC BY-SA 3.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="Theatre at Kyaneai"
+             src="assets/images/kyaneai/1920px-Cyaneae_Theatre_0162_lead.jpg" />
+        <figcaption>
+          The small theatre at Kyaneai, on its long ridge above Yavu.
+          <span class="attr">Kyaneai · <a href="https://commons.wikimedia.org/wiki/File:Cyaneae_Theatre_0162.jpg" target="_blank" rel="noopener">Dosseman</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+      <figure class="stone-frame">
+        <img class="photo" loading="lazy" alt="The upper city at Sagalassos"
+             src="assets/images/sagalassos/1920px-Sagalassos_Antik_Kenti_03_lead.jpg" />
+        <figcaption>
+          The Pisidian upper city of Sagalassos, at 1,500 metres.
+          <span class="attr">Sagalassos · <a href="https://commons.wikimedia.org/wiki/File:Sagalassos_Antik_Kenti_03.jpg" target="_blank" rel="noopener">BerkhanTr</a>, CC BY-SA 4.0</span>
+        </figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<section class="atmosphere">
+  <div class="container">
+    <div class="split">
+      <div>
+        <span class="section-eyebrow">Real photography vs gradients</span>
+        <h2>What changed</h2>
+        <p>
+          Same wall theme, same <code>.stone-frame</code> markup — but each
+          frame now holds a real photograph from Wikimedia Commons instead of
+          the CSS gradient placeholders. The mortar border, inset shadow,
+          and italic caption work identically on real images.
+        </p>
+        <p>
+          The next step for production would be your own photos of Kaş and
+          the surrounding sites — same markup, same result, no attribution
+          needed when it's your own work.
+        </p>
+      </div>
+      <div class="ornament">
+        <span>"Twelve cities. Twelve photographers.<br/>Each photo a tiny window into a stone city."</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="brand-block">
+        <a href="index.html" class="brand">like<span>likya</span></a>
+        <p>A slow guide to Lycia — the cities, the trail, the coast, and what still lives on it.</p>
+      </div>
+      <div>
+        <h4>Previews</h4>
+        <ul>
+          <li><a href="wall-preview.html">Wall theme</a></li>
+          <li><a href="photos-preview.html">Photos</a></li>
+          <li><a href="map-preview.html">Interactive map</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="explore.html">Ancient cities</a></li>
+          <li><a href="lycian-way.html">The Lycian Way</a></li>
+          <li><a href="ecology.html">Ecology</a></li>
+          <li><a href="modern.html">Modern Lycia</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#contribute">Contribute</a></li>
+          <li><a href="about.html#sources">Sources</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 likelikya · Photos preview. Images CC-licensed via Wikimedia Commons.</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

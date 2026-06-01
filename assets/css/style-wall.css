@@ -1,0 +1,379 @@
+/* ---------- Wall-themed variant — frame, not fill ----------
+   Loaded AFTER style.css in wall-preview.html.
+
+   The polygonal wall is confined to: hero, section dividers, footer, and
+   narrow page-edge strips (desktop only). Everywhere actual content lives
+   — text, images, maps — the background is plain limestone so photos and
+   maps read cleanly.
+*/
+
+/* Plain limestone background — no wall pattern through the body */
+body {
+  background: #EDE6D6;
+}
+body::before {
+  /* turn off the original body texture overlay */
+  display: none;
+}
+
+/* ---------- Optional: narrow textured page-edge strips ---------- */
+/* Acts as a stone "margin" framing the content area on wide screens. */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0;
+  width: 28px;
+  background-image: url("../wall-pattern.svg");
+  background-size: 280px auto;
+  background-position: left center;
+  background-repeat: repeat-y;
+  border-right: 1px solid #5C4F3D;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: inset -6px 0 10px -6px rgba(45, 36, 27, 0.35);
+}
+.page-edge-right {
+  position: fixed;
+  top: 0; bottom: 0;
+  right: 0;
+  width: 28px;
+  background-image: url("../wall-pattern.svg");
+  background-size: 280px auto;
+  background-position: right center;
+  background-repeat: repeat-y;
+  border-left: 1px solid #5C4F3D;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: inset 6px 0 10px -6px rgba(45, 36, 27, 0.35);
+}
+@media (max-width: 900px) {
+  body::after, .page-edge-right { display: none; }
+}
+
+/* Header sits on the limestone with a mortar baseline */
+.site-header {
+  background: rgba(232, 223, 200, 0.94);
+  border-bottom: 2px solid #5C4F3D;
+}
+.nav-links a { color: #4A4338; }
+.brand { color: #3D3527; }
+.brand span { color: #8B5A2B; }
+
+/* ---------- HERO — full polygonal wall ---------- */
+.hero {
+  position: relative;
+  padding: 8rem 0 7rem;
+  background-image:
+    linear-gradient(180deg, rgba(220, 205, 170, 0.0) 0%, rgba(237, 230, 214, 0.55) 88%, rgba(237, 230, 214, 1) 100%),
+    url("../wall-pattern.svg");
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  border-bottom: 3px solid #5C4F3D;
+  color: #2A241B;
+  overflow: hidden;
+}
+.hero::before { display: none; }
+
+.hero h1 {
+  color: #2A241B;
+  text-shadow: 0 2px 0 rgba(255, 245, 220, 0.45);
+  font-size: clamp(2.6rem, 5.6vw, 4rem);
+}
+.hero .tagline {
+  color: #3D3527;
+  text-shadow: 0 1px 0 rgba(255, 245, 220, 0.4);
+}
+.hero .meta { color: #5C4F3D; }
+.hero .meta::before, .hero .meta::after { background: #5C4F3D; }
+
+.hero .btn {
+  background: rgba(252, 247, 235, 0.85);
+  border: 1.5px solid #5C4F3D;
+  color: #2A241B;
+  font-weight: 600;
+  backdrop-filter: blur(2px);
+}
+.hero .btn:hover {
+  background: #5C4F3D;
+  color: #F4ECD8;
+  border-color: #5C4F3D;
+}
+.hero .btn.primary {
+  background: #5C4F3D;
+  color: #F4ECD8;
+}
+.hero .btn.primary:hover { background: #2A241B; }
+
+/* ---------- Section dividers — a course of masonry ---------- */
+section + section::before {
+  content: "";
+  display: block;
+  height: 16px;
+  margin: 0 0 2.5rem;
+  background-image: url("../wall-pattern.svg");
+  background-size: 1400px auto;
+  background-position: center 35%;
+  background-repeat: repeat-x;
+  border-top: 1px solid #5C4F3D;
+  border-bottom: 1px solid #5C4F3D;
+  opacity: 0.9;
+}
+
+/* ---------- Cards — calm limestone, no busy texture ---------- */
+.card {
+  background: linear-gradient(180deg, #F4ECD8 0%, #E9DEC1 100%);
+  border: 1px solid #B09F6F;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 250, 230, 0.7),
+    0 1px 2px rgba(45, 36, 27, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+/* Optional thumbnail at the top of a card — bleed to edges,
+   mortar-coloured bottom border separating image from text. */
+.card-img {
+  display: block;
+  width: calc(100% + 3.2rem);
+  margin: -1.6rem -1.6rem 1.1rem;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-bottom: 1px solid #5C4F3D;
+  background: #E9DEC1;
+}
+/* Hide the polygonal corner accent when a thumbnail is present —
+   the photo already provides visual interest. */
+.card:has(.card-img)::after { display: none; }
+.card::after {
+  /* tiny polygonal corner accent — the only place the texture ties into cards */
+  content: "";
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 22px; height: 22px;
+  background-image: url("../wall-pattern.svg");
+  background-size: 600px auto;
+  background-position: -60px -40px;
+  opacity: 0.55;
+  border-radius: 2px;
+  border: 1px solid rgba(92, 79, 61, 0.4);
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 250, 230, 0.7),
+    0 12px 28px rgba(45, 36, 27, 0.18);
+  border-color: #5C4F3D;
+}
+.card h3 { color: #2A241B; }
+.card .era { color: #8B5A2B; }
+.card p { color: #5C4F3D; }
+.card .card-meta {
+  border-top-color: #B09F6F;
+  color: #6E5F49;
+}
+
+/* ---------- Images "set into the stone" ----------
+   Use the class .stone-frame on any <img>, <figure>, or wrapping <div>
+   that contains photographic content. */
+.stone-frame {
+  display: block;
+  position: relative;
+  background: #E9DEC1;
+  padding: 8px;
+  border: 1px solid #5C4F3D;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 250, 230, 0.6),
+    0 2px 4px rgba(45, 36, 27, 0.10),
+    0 12px 24px rgba(45, 36, 27, 0.14);
+  border-radius: 2px;
+}
+.stone-frame img,
+.stone-frame .img-placeholder {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #5C4F3D;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+.stone-frame figcaption {
+  margin-top: 0.6rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #5C4F3D;
+  text-align: center;
+}
+
+/* Placeholder swatches that stand in for photos in this preview */
+.img-placeholder {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: rgba(255, 245, 220, 0.92);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  font-size: 1rem;
+  text-align: center;
+  padding: 1rem;
+}
+.img-placeholder.sea {
+  background:
+    linear-gradient(180deg, #6EAEC4 0%, #2A6B7F 60%, #143B49 100%);
+}
+.img-placeholder.theatre {
+  background:
+    radial-gradient(circle at 50% 80%, #B5A37A 0%, #8B7E5E 50%, #5C4F3D 100%);
+}
+.img-placeholder.mountain {
+  background:
+    linear-gradient(180deg, #C8DCE4 0%, #8B9DA8 35%, #4E5E5F 70%, #2A3334 100%);
+}
+.img-placeholder.tomb {
+  background:
+    linear-gradient(160deg, #C2B287 0%, #8B7E5E 50%, #4A4338 100%);
+}
+.img-placeholder.maquis {
+  background:
+    linear-gradient(180deg, #8AA56E 0%, #556839 60%, #3A4626 100%);
+}
+.img-placeholder.harbour {
+  background:
+    linear-gradient(180deg, #E8C97A 0%, #B88547 50%, #6E4A28 100%);
+}
+
+/* Three-up gallery row */
+.gallery-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.4rem;
+  margin: 1.5rem 0;
+}
+
+/* ---------- Maps — clean limestone card, no busy backdrop ---------- */
+.map-card {
+  background: #F4ECD8;
+  border: 1px solid #5C4F3D;
+  border-radius: 2px;
+  padding: 1.4rem;
+  margin: 1.5rem 0;
+  position: relative;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 250, 230, 0.7),
+    0 2px 4px rgba(45, 36, 27, 0.06),
+    0 12px 24px rgba(45, 36, 27, 0.10);
+}
+/* Four small polygonal corner accents */
+.map-card::before,
+.map-card::after,
+.map-card .corner-tl,
+.map-card .corner-br {
+  content: "";
+  position: absolute;
+  width: 28px; height: 28px;
+  background-image: url("../wall-pattern.svg");
+  background-size: 600px auto;
+  opacity: 0.55;
+  border: 1px solid rgba(92, 79, 61, 0.45);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.map-card::before { top: 8px; left: 8px;    background-position: -10px -10px; }
+.map-card::after  { top: 8px; right: 8px;   background-position: -300px -50px; }
+.map-card .corner-tl { display: none; } /* placeholder hooks if you want all 4 */
+.map-card .corner-br { display: none; }
+
+.map-card .lycia-map {
+  border: 1px solid #5C4F3D;
+  background: #E9DEC1;
+}
+.map-card .map-caption {
+  margin-top: 0.8rem;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: #5C4F3D;
+  font-size: 0.95rem;
+}
+
+/* ---------- Info / split blocks ---------- */
+.split .ornament {
+  background:
+    linear-gradient(135deg, rgba(92, 79, 61, 0.55) 0%, rgba(92, 79, 61, 0.15) 100%),
+    url("../wall-pattern.svg");
+  background-size: auto, 200%;
+  background-position: center;
+  border: 1px solid #5C4F3D;
+  color: #FAF3DD;
+  font-style: italic;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.info-block {
+  background:
+    linear-gradient(90deg, rgba(232, 221, 190, 0.95) 0%, rgba(232, 221, 190, 0.85) 100%);
+  border-left: 4px solid #8B5A2B;
+  color: #2A241B;
+}
+
+.section-eyebrow { color: #8B5A2B; }
+h1, h2, h3, h4 { color: #2A241B; }
+
+/* ---------- Atmospheric section — wall returns at low intensity ---------- */
+.atmosphere {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(237, 230, 214, 0.85) 0%, rgba(237, 230, 214, 0.95) 100%),
+    url("../wall-pattern.svg");
+  background-size: auto, 1400px auto;
+  background-position: center;
+  border-top: 1px solid #5C4F3D;
+  border-bottom: 1px solid #5C4F3D;
+  padding: 5rem 0;
+}
+
+/* ---------- Footer — solid limestone with masonry top border ---------- */
+.site-footer {
+  background: #D4C7A0;
+  border-top: 3px solid #5C4F3D;
+  color: #4A4338;
+  position: relative;
+}
+.site-footer::before {
+  /* a course of stones as the top edge of the footer */
+  content: "";
+  position: absolute;
+  top: -19px; left: 0; right: 0;
+  height: 16px;
+  background-image: url("../wall-pattern.svg");
+  background-size: 1400px auto;
+  background-position: center 35%;
+  background-repeat: repeat-x;
+  border-top: 1px solid #5C4F3D;
+  border-bottom: 1px solid #5C4F3D;
+}
+.site-footer h4 { color: #2A241B; }
+.site-footer a { color: #4A4338; }
+.site-footer a:hover { color: #8B5A2B; }
+.footer-bottom {
+  border-top: 1px solid #B09F6F;
+  color: #6E5F49;
+}
+
+/* Article hero unchanged (no images expected in immediate hero area) */
+.article-hero {
+  background:
+    linear-gradient(180deg, rgba(237, 230, 214, 0.85) 0%, rgba(237, 230, 214, 0.95) 100%),
+    url("../wall-pattern.svg");
+  background-size: auto, cover;
+  background-position: center;
+  border-bottom: 2px solid #5C4F3D;
+}
+
+/* Adjust container padding slightly to account for the edge strips */
+@media (min-width: 901px) {
+  .container { padding: 0 calc(1.5rem + 28px); }
+}

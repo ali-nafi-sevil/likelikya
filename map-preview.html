@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>likelikya — Interactive map preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style-wall.css" />
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+  #lycia-map {
+    width: 100%;
+    height: 70vh;
+    min-height: 520px;
+    border: 1px solid #5C4F3D;
+    border-radius: 2px;
+    background: #E9DEC1;
+  }
+  .leaflet-popup-content-wrapper {
+    background: #F4ECD8;
+    color: #2A241B;
+    border: 1px solid #5C4F3D;
+    border-radius: 2px;
+    box-shadow: 0 6px 16px rgba(45, 36, 27, 0.25);
+  }
+  .leaflet-popup-tip {
+    background: #F4ECD8;
+    border: 1px solid #5C4F3D;
+  }
+  .leaflet-popup-content {
+    font-family: 'Inter', sans-serif;
+    margin: 0.7rem 0.9rem;
+    min-width: 180px;
+  }
+  .popup-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #2A241B;
+    margin-bottom: 0.2rem;
+    display: block;
+  }
+  .popup-ancient {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #8B5A2B;
+    margin-bottom: 0.5rem;
+  }
+  .popup-desc {
+    font-size: 0.88rem;
+    color: #5C4F3D;
+    margin-bottom: 0.6rem;
+  }
+  .popup-link {
+    display: inline-block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #5C4F3D;
+    border-bottom: 1px solid rgba(92, 79, 61, 0.4);
+  }
+  .popup-link:hover { color: #8B5A2B; }
+  /* Custom marker icon — a small limestone pin */
+  .lycia-marker {
+    width: 22px; height: 22px;
+    background: #F4ECD8;
+    border: 2px solid #5C4F3D;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 6px rgba(45, 36, 27, 0.4);
+    position: relative;
+  }
+  .lycia-marker::after {
+    content: "";
+    width: 6px; height: 6px;
+    background: #8B5A2B;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .lycia-marker.highland { background: #C2B287; }
+  .lycia-marker.coast    { background: #B5D4DE; }
+  .lycia-marker.inland   { background: #E8DDBE; }
+</style>
+</head>
+<body>
+
+<div class="page-edge-right" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">like<span>likya</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">≡</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Original</a></li>
+      <li><a href="wall-preview.html">Wall theme</a></li>
+      <li><a href="photos-preview.html">Photos</a></li>
+      <li><a href="map-preview.html">Map</a></li>
+      <li><a href="explore.html">Explore</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" style="padding: 5rem 0 3.5rem;">
+  <div class="container">
+    <div class="meta">Wall theme · interactive map</div>
+    <h1>Lycia, on a map</h1>
+    <p class="tagline">
+      Real OpenStreetMap tiles, real coordinates, real markers — every city
+      from the site, click-through to the detail page.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-intro">
+      Pan and zoom freely. Click any marker for a popup with a quick read on
+      the city; click "Read more" to open its page. Markers are color-coded
+      by geography: <strong>blue</strong> for coastal cities, <strong>cream</strong>
+      for inland, <strong>tan</strong> for highland.
+    </p>
+
+    <div class="map-card" style="padding: 1rem;">
+      <div id="lycia-map"></div>
+      <p class="map-caption">
+        Tiles courtesy of <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. Map library: Leaflet.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="info-block">
+      <strong>How this is built.</strong> Plain Leaflet via CDN, ~50 lines of
+      JavaScript at the bottom of this file. The data lives in a single
+      <code>CITIES</code> array — adding new sites (e.g. Limyra, Arycanda,
+      Myra) is a matter of pasting in a row of <code>[name, lat, lng, slug, ancient, geo, blurb]</code>.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="brand-block">
+        <a href="index.html" class="brand">like<span>likya</span></a>
+        <p>A slow guide to Lycia — the cities, the trail, the coast, and what still lives on it.</p>
+      </div>
+      <div>
+        <h4>Previews</h4>
+        <ul>
+          <li><a href="wall-preview.html">Wall theme</a></li>
+          <li><a href="photos-preview.html">Photos</a></li>
+          <li><a href="map-preview.html">Interactive map</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="explore.html">Ancient cities</a></li>
+          <li><a href="lycian-way.html">The Lycian Way</a></li>
+          <li><a href="ecology.html">Ecology</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#sources">Sources</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 likelikya · Map preview.</div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+const CITIES = [
+  // [display name, ancient/modern label, lat, lng, slug, geo class, short blurb]
+  ["Telmessos",              "modern Fethiye",       36.6520, 29.1166, "telmessos",   "coast",    "Westernmost major Lycian city. The rock-cut Tomb of Amyntas looks over Fethiye harbour."],
+  ["Pinara",                 "Lycian League · 3 votes", 36.4869, 29.2569, "pinara",      "inland",   "A wooded theatre under a sheer cliff honeycombed with empty tombs."],
+  ["Tlos",                   "Lycian League · 3 votes", 36.5567, 29.4267, "tlos",        "inland",   "Continuously inhabited for almost four millennia. Bellerophon's tomb is here."],
+  ["Xanthos",                "Lycian capital · UNESCO", 36.3567, 29.3214, "xanthos",     "inland",   "Political heart of the Lycian League; the city chose mass suicide over surrender twice."],
+  ["Patara",                 "Federal capital",      36.2614, 29.3164, "patara",      "coast",    "Chief harbour of Lycia, with the world's oldest dated lighthouse."],
+  ["Antiphellos (Kaş)",      "Kaş",                  36.2017, 29.6378, "antiphellos", "coast",    "Twin Lycian cities: Antiphellos at the harbour, Phellos on the ridge above."],
+  ["Kyaneai",                "above Demre",          36.2389, 29.8167, "kyaneai",     "inland",   "The densest concentration of sarcophagi anywhere in Lycia — a stone forest."],
+  ["Kekova area",            "Simena · Aperlai · Teimioussa", 36.1833, 29.8500, "kekova",      "coast",    "Three Lycian ports and one Byzantine settlement on a sheltered strait."],
+  ["Olympos",                "Çıralı / Olympos",     36.3933, 30.4717, "olympos",     "coast",    "A pirate-friendly port in a river ravine, with the Chimaera flames above."],
+  ["Phaselis",               "near Kemer",           36.5208, 30.5517, "phaselis",    "coast",    "Three harbours, one city. Welcomed Alexander the Great with a golden crown."],
+  ["Termessos",              "Pisidian highland",    36.9842, 30.4664, "termessos",   "highland", "Alexander called it the eagle's nest and chose not to attack."],
+  ["Sagalassos",             "Pisidian highland",    37.6789, 30.5217, "sagalassos",  "highland", "Spectacular upland city at 1,500 m, with a reconstructed Antonine nymphaeum that still flows."],
+];
+
+// Initialize map centered on Lycia, zoomed to fit
+const map = L.map("lycia-map", {
+  center: [36.7, 29.9],
+  zoom: 8,
+  scrollWheelZoom: true,
+  attributionControl: true,
+});
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 18,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+}).addTo(map);
+
+const group = L.featureGroup();
+
+CITIES.forEach(([name, ancient, lat, lng, slug, geo, blurb]) => {
+  const icon = L.divIcon({
+    className: "",
+    html: `<div class="lycia-marker ${geo}"></div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 22],
+    popupAnchor: [0, -20],
+  });
+  const marker = L.marker([lat, lng], { icon, title: name }).addTo(map);
+  const popup = `
+    <span class="popup-title">${name}</span>
+    <span class="popup-ancient">${ancient}</span>
+    <p class="popup-desc">${blurb}</p>
+    <a class="popup-link" href="cities/${slug}.html">Read more →</a>
+  `;
+  marker.bindPopup(popup);
+  group.addLayer(marker);
+});
+
+map.fitBounds(group.getBounds().pad(0.15));
+</script>
+</body>
+</html>

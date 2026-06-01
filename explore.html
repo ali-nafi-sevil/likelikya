@@ -8,8 +8,50 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style-wall.css" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+  #lycia-map {
+    width: 100%;
+    height: 62vh;
+    min-height: 480px;
+    border: 1px solid #5C4F3D;
+    border-radius: 2px;
+    background: #E9DEC1;
+  }
+  .leaflet-popup-content-wrapper {
+    background: #F4ECD8;
+    color: #2A241B;
+    border: 1px solid #5C4F3D;
+    border-radius: 2px;
+    box-shadow: 0 6px 16px rgba(45, 36, 27, 0.25);
+  }
+  .leaflet-popup-tip { background: #F4ECD8; border: 1px solid #5C4F3D; }
+  .leaflet-popup-content { font-family: 'Inter', sans-serif; margin: 0.7rem 0.9rem; min-width: 180px; }
+  .popup-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-style: italic; color: #2A241B; margin-bottom: 0.2rem; display: block; }
+  .popup-ancient { display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: #8B5A2B; margin-bottom: 0.5rem; }
+  .popup-desc { font-size: 0.88rem; color: #5C4F3D; margin-bottom: 0.6rem; }
+  .popup-link { display: inline-block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: #5C4F3D; border-bottom: 1px solid rgba(92, 79, 61, 0.4); }
+  .popup-link:hover { color: #8B5A2B; }
+  .lycia-marker { width: 22px; height: 22px; background: #F4ECD8; border: 2px solid #5C4F3D; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 2px 6px rgba(45, 36, 27, 0.4); position: relative; }
+  .lycia-marker::after { content: ""; width: 6px; height: 6px; background: #8B5A2B; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .lycia-marker.highland { background: #C2B287; }
+  .lycia-marker.coast    { background: #B5D4DE; }
+  .lycia-marker.inland   { background: #E8DDBE; }
+
+  .attr { display: block; margin-top: 0.3rem; font-family: 'Inter', sans-serif; font-style: normal; font-size: 0.72rem; color: #6E5F49; letter-spacing: 0.02em; }
+  .attr a { color: #6E5F49; border-bottom-color: rgba(110, 95, 73, 0.3); }
+  .attr a:hover { color: #8B5A2B; }
+</style>
 </head>
 <body>
+
+<div class="page-edge-right" aria-hidden="true"></div>
 
 <header class="site-header">
   <div class="container nav">
@@ -32,56 +74,21 @@
     <h1>Explore Lycia</h1>
     <p class="tagline" style="margin-top:1rem">
       A growing index of the ancient cities of Lycia and her neighbours — each one a different
-      knot of stone, history, and landscape.
+      knot of stone, history, and landscape. Start on the map.
     </p>
   </div>
 </section>
 
 <section style="padding-top:0;">
   <div class="container">
-    <svg class="lycia-map" viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic map of the Lycian coast and its cities">
-      <rect class="sea" x="0" y="0" width="800" height="360"/>
-      <path class="land" d="M 40 60 Q 110 40 200 80 T 360 110 Q 440 80 520 130 Q 610 130 700 100 L 760 130 L 770 200 L 720 220 Q 640 220 580 250 Q 500 290 410 270 Q 320 250 240 280 Q 160 310 90 280 L 40 240 Z"/>
-      <path class="trail" d="M 130 200 Q 200 230 280 230 Q 360 220 430 240 Q 500 250 560 245 Q 620 240 680 220"/>
-
-      <g>
-        <circle class="city" cx="130" cy="200" r="3.5"/>
-        <text class="city-label" x="120" y="190">Telmessos</text>
-        <circle class="city" cx="210" cy="230" r="3.5"/>
-        <text class="city-label" x="195" y="248">Pinara</text>
-        <circle class="city" cx="260" cy="225" r="3.5"/>
-        <text class="city-label" x="250" y="216">Tlos</text>
-        <circle class="city" cx="305" cy="240" r="3.5"/>
-        <text class="city-label" x="290" y="256">Xanthos</text>
-        <circle class="city" cx="335" cy="248" r="3.5"/>
-        <text class="city-label" x="330" y="262">Patara</text>
-        <circle class="city" cx="390" cy="248" r="3.5"/>
-        <text class="city-label" x="378" y="240">Antiphellos (Kaş)</text>
-        <circle class="city" cx="395" cy="232" r="2.5"/>
-        <text class="city-label" x="402" y="228">Phellos</text>
-        <circle class="city" cx="440" cy="252" r="3.5"/>
-        <text class="city-label" x="430" y="266">Kyaneai</text>
-        <circle class="city" cx="475" cy="255" r="3.5"/>
-        <text class="city-label" x="462" y="270">Kekova area</text>
-        <circle class="city" cx="540" cy="248" r="3.5"/>
-        <text class="city-label" x="528" y="240">Myra (Demre)</text>
-        <circle class="city" cx="610" cy="235" r="3.5"/>
-        <text class="city-label" x="600" y="226">Olympos</text>
-        <circle class="city" cx="655" cy="225" r="3.5"/>
-        <text class="city-label" x="645" y="216">Phaselis</text>
-        <circle class="city" cx="660" cy="180" r="3.5"/>
-        <text class="city-label" x="645" y="172">Termessos</text>
-        <circle class="city" cx="540" cy="130" r="3.5"/>
-        <text class="city-label" x="525" y="122">Sagalassos</text>
-      </g>
-
-      <text class="compass" x="745" y="345">↑ N</text>
-      <text class="compass" x="40" y="50">Aegean</text>
-      <text class="compass" x="380" y="335">Mediterranean</text>
-    </svg>
-    <p style="text-align:center; color:var(--stone-500); font-size:0.85rem; margin-top:0.6rem;">
-      Schematic only — not to scale. A real interactive map is on the to-do list.
-    </p>
+    <div class="map-card" style="padding: 1rem;">
+      <div id="lycia-map"></div>
+      <p class="map-caption">
+        Pan and zoom; click a marker for a quick read and a link to the city's page.
+        Tiles © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>.
+        Markers: <strong>blue</strong> coastal · <strong>cream</strong> inland · <strong>tan</strong> highland.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -90,36 +97,63 @@
     <span class="section-eyebrow">Western Lycia</span>
     <h2>Around Fethiye and the Xanthos valley</h2>
     <div class="card-grid mt-2">
+
       <a class="card" href="cities/telmessos.html">
+        <img class="card-img" loading="lazy" alt="Tomb of Amyntas, Telmessos" src="assets/images/telmessos/1920px-Tomb_of_Amyntas_2020-03-15-2_lead.jpg" />
         <span class="era">Telmessos · modern Fethiye</span>
         <h3>Telmessos</h3>
         <p>The great rock-cut Tomb of Amyntas looks down over Fethiye harbour. The city's reputation for soothsayers reached as far as Alexander.</p>
         <div class="card-meta"><span>Coast</span><span>Rock tombs</span></div>
       </a>
+
+      <a class="card" href="cities/araxa.html">
+        <img class="card-img" loading="lazy" alt="Ancient remains at Araxa" src="assets/images/araxa/Lycia-turkey-ancient.jpg" />
+        <span class="era">Upper Xanthos valley</span>
+        <h3>Araxa</h3>
+        <p>A quiet inland city famous for one of the most informative civic inscriptions of the Lycian League era — the Araxa Decree honouring Orthagoras.</p>
+        <div class="card-meta"><span>Inland</span><span>Decree</span></div>
+      </a>
+
       <a class="card" href="cities/pinara.html">
+        <img class="card-img" loading="lazy" alt="Theatre at Pinara" src="assets/images/pinara/1920px-Theater_Pinara_Türkei_lead.JPG" />
         <span class="era">Lycian League · vote of 3</span>
         <h3>Pinara</h3>
         <p>A theatre carved into a wooded mountainside, beneath a colossal sheer cliff honeycombed with empty tombs.</p>
         <div class="card-meta"><span>Mountain</span><span>Theatre</span></div>
       </a>
+
       <a class="card" href="cities/tlos.html">
+        <img class="card-img" loading="lazy" alt="Stadium at Tlos" src="assets/images/tlos/1920px-Tlos_Stadium_4152_lead.jpg" />
         <span class="era">"Brightest jewel of Lycia"</span>
         <h3>Tlos</h3>
         <p>Acropolis-on-acropolis, lived in continuously from Bronze Age through Ottoman times. The Bellerophon tomb is here.</p>
         <div class="card-meta"><span>Mountain</span><span>Bellerophon</span></div>
       </a>
+
       <a class="card" href="cities/xanthos.html">
+        <img class="card-img" loading="lazy" alt="Nereid Monument podium, Xanthos" src="assets/images/xanthos/Xanthus,_tomb_of_the_Nereids,_podium_lead.jpg" />
         <span class="era">Lycian capital · UNESCO</span>
         <h3>Xanthos</h3>
         <p>The political and ceremonial centre of the Lycian League, where the inhabitants twice chose mass suicide over surrender.</p>
         <div class="card-meta"><span>Inland</span><span>Pillar tombs</span></div>
       </a>
+
+      <a class="card" href="cities/letoon.html">
+        <img class="card-img" loading="lazy" alt="The Hellenistic theatre at Letoon" src="assets/images/letoon/Leotoon_Hellenistic_Theatre_5304.jpg" />
+        <span class="era">Federal sanctuary · UNESCO</span>
+        <h3>Letoon</h3>
+        <p>The religious centre of the Lycian League, where treaties were ratified and the trilingual stele unlocked the Lycian language.</p>
+        <div class="card-meta"><span>Inland</span><span>Three temples</span></div>
+      </a>
+
       <a class="card" href="cities/patara.html">
+        <img class="card-img" loading="lazy" alt="Patara ruins and sarcophagus" src="assets/images/patara/1920px-Patara_Ruins_(7023429755)_lead.jpg" />
         <span class="era">Birthplace of Saint Nicholas</span>
         <h3>Patara</h3>
         <p>Federal capital of the Lycian League, with a 5,000-seat theatre and an 18 km beach now closed at night to loggerheads.</p>
         <div class="card-meta"><span>Coast</span><span>Theatre · Lighthouse</span></div>
       </a>
+
     </div>
   </div>
 </section>
@@ -129,24 +163,55 @@
     <span class="section-eyebrow">Central Lycia</span>
     <h2>The Teke peninsula — Kaş, Kekova, Demre</h2>
     <div class="card-grid mt-2">
+
       <a class="card" href="cities/antiphellos.html">
+        <img class="card-img" loading="lazy" alt="Hellenistic theatre at Antiphellos" src="assets/images/antiphellos/1920px-Antiphellus_Ancient_Theatre_-_2014.10_-_panoramio_lead.jpg" />
         <span class="era">Antiphellos · modern Kaş</span>
-        <h3>Antiphellos &amp; Phellos</h3>
-        <p>Twin cities of the Teke ridge: the small port below at Kaş and the harder-to-reach mother city in the hills.</p>
-        <div class="card-meta"><span>Coast + ridge</span><span>Ionic tomb</span></div>
+        <h3>Antiphellos</h3>
+        <p>The Hellenistic harbour city below Phellos: small theatre, Lion Sarcophagus on the main street, and Meis on the horizon.</p>
+        <div class="card-meta"><span>Coast</span><span>Theatre · Tombs</span></div>
       </a>
+
+      <a class="card" href="cities/phellos.html">
+        <img class="card-img" loading="lazy" alt="Lycian tomb at Phellos" src="assets/images/phellos/LycianTombPhellos.jpg" />
+        <span class="era">Mother city on the ridge</span>
+        <h3>Phellos</h3>
+        <p>The older twin, at 850 m on the limestone ridge above Çukurbağ — reached on foot, fewer remains, fewer visitors.</p>
+        <div class="card-meta"><span>Ridge · 850 m</span><span>House tomb</span></div>
+      </a>
+
       <a class="card" href="cities/kyaneai.html">
+        <img class="card-img" loading="lazy" alt="Theatre at Kyaneai" src="assets/images/kyaneai/1920px-Cyaneae_Theatre_0162_lead.jpg" />
         <span class="era">"The dark ones"</span>
         <h3>Kyaneai</h3>
         <p>A small Lycian city with the densest concentration of sarcophagi anywhere in Lycia — they stand thick on the ridge like a stone forest.</p>
         <div class="card-meta"><span>Ridge</span><span>Sarcophagi</span></div>
       </a>
+
       <a class="card" href="cities/kekova.html">
+        <img class="card-img" loading="lazy" alt="The Kekova strait" src="assets/images/kekova/1920px-Kekova_island_and_Kalekoey_village_lead.jpg" />
         <span class="era">Sunken city of Kekova</span>
         <h3>Simena · Aperlai · Teimioussa</h3>
         <p>Three Lycian ports on a sheltered strait — half-walls, harbour quays, and basins now several metres underwater.</p>
         <div class="card-meta"><span>Coast</span><span>Submerged</span></div>
       </a>
+
+      <a class="card" href="cities/myra.html">
+        <img class="card-img" loading="lazy" alt="Roman theatre and rock tombs at Myra" src="assets/images/myra/Myra_theatre.jpg" />
+        <span class="era">Modern Demre · 3 votes</span>
+        <h3>Myra</h3>
+        <p>One of the leading Lycian cities, with a massive Roman theatre, the most photographed rock-tomb cliff in Lycia, and the church of Saint Nicholas next door.</p>
+        <div class="card-meta"><span>Coast</span><span>Rock tombs</span></div>
+      </a>
+
+      <a class="card" href="cities/andriake.html">
+        <img class="card-img" loading="lazy" alt="Harbour area at Andriake" src="assets/images/andriake/Andriake_Harbour_area_0287.jpg" />
+        <span class="era">Harbour of Myra</span>
+        <h3>Andriake</h3>
+        <p>Myra's port, home to Hadrian's Granary — one of the best preserved Roman granaries in the eastern Mediterranean — and the Lycian Civilisations Museum.</p>
+        <div class="card-meta"><span>Coast</span><span>Granary · Museum</span></div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -156,18 +221,39 @@
     <span class="section-eyebrow">Eastern Lycia</span>
     <h2>The Olympos coast and the bay of Antalya</h2>
     <div class="card-grid mt-2">
+
+      <a class="card" href="cities/limyra.html">
+        <img class="card-img" loading="lazy" alt="Ruins at Limyra" src="assets/images/limyra/Limyra_5110.jpg" />
+        <span class="era">Dynast Pericle's capital</span>
+        <h3>Limyra</h3>
+        <p>The eastern Lycian centre in the 4th century BC. Heroon of Pericle on the acropolis, cenotaph of Gaius Caesar, terrapins in the river.</p>
+        <div class="card-meta"><span>Inland</span><span>Heroon</span></div>
+      </a>
+
+      <a class="card" href="cities/arykanda.html">
+        <img class="card-img" loading="lazy" alt="Ruins of Arykanda" src="assets/images/arykanda/Ruins_of_Arykanda_6877338374.jpg" />
+        <span class="era">The "Delphi of Lycia"</span>
+        <h3>Arykanda</h3>
+        <p>A vertiginously terraced city stacked down a mountainside above the Aykırı valley. Theatre, stadium, Trajaneum — each on its own level.</p>
+        <div class="card-meta"><span>Mountain</span><span>Terraced</span></div>
+      </a>
+
       <a class="card" href="cities/olympos.html">
+        <img class="card-img" loading="lazy" alt="Olympos aerial view" src="assets/images/olympos/1920px-Aerial_View_of_Olympus_(Lycia)_from_the_west_lead.jpg" />
         <span class="era">Pirate-friendly port</span>
         <h3>Olympos</h3>
         <p>A city tucked into a wooded ravine where a clear river meets the sea, ruled at one point by the pirate Zeniketos.</p>
         <div class="card-meta"><span>Coast</span><span>Chimaera flames</span></div>
       </a>
+
       <a class="card" href="cities/phaselis.html">
+        <img class="card-img" loading="lazy" alt="Main street at Phaselis" src="assets/images/phaselis/Phaselis_axb01_lead.jpg" />
         <span class="era">Three harbours, one city</span>
         <h3>Phaselis</h3>
         <p>A wealthy port founded by colonists from Rhodes, with a main street running between two of its three harbours.</p>
         <div class="card-meta"><span>Coast</span><span>Aqueduct · Agora</span></div>
       </a>
+
     </div>
   </div>
 </section>
@@ -182,18 +268,23 @@
       to be visited in the same trip.
     </p>
     <div class="card-grid mt-2">
+
       <a class="card" href="cities/termessos.html">
+        <img class="card-img" loading="lazy" alt="Theatre at Termessos" src="assets/images/termessos/1920px-Termessos_-_Theater_lead.jpg" />
         <span class="era">Pisidian · turned Alexander away</span>
         <h3>Termessos</h3>
         <p>A defensive city at 1000 m, ringed by Mount Solymos. Alexander called it the eagle's nest and chose not to attack.</p>
         <div class="card-meta"><span>Mountain</span><span>Necropolis</span></div>
       </a>
+
       <a class="card" href="cities/sagalassos.html">
+        <img class="card-img" loading="lazy" alt="Sagalassos upper city" src="assets/images/sagalassos/1920px-Sagalassos_Antik_Kenti_03_lead.jpg" />
         <span class="era">Pisidian · Roman provincial capital</span>
         <h3>Sagalassos</h3>
         <p>One of the most spectacularly preserved upland cities in Anatolia, with a reconstructed Antonine nymphaeum still flowing.</p>
         <div class="card-meta"><span>Mountain</span><span>Nymphaeum</span></div>
       </a>
+
     </div>
   </div>
 </section>
@@ -232,12 +323,59 @@
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      © 2026 likelikya · A working draft.
-    </div>
+    <div class="footer-bottom">© 2026 likelikya · A working draft.</div>
   </div>
 </footer>
 
 <script src="assets/js/main.js"></script>
+<script>
+const CITIES = [
+  ["Telmessos",            "modern Fethiye",                36.6520, 29.1166, "telmessos",   "coast",    "Westernmost major Lycian city. The Tomb of Amyntas looks over Fethiye harbour."],
+  ["Araxa",                "upper Xanthos valley",          36.7167, 29.3000, "araxa",       "inland",   "A small Lycian city famous for the Araxa Decree — a key source on how the Lycian League worked."],
+  ["Pinara",               "Lycian League · 3 votes",       36.4869, 29.2569, "pinara",      "inland",   "A wooded theatre under a sheer cliff honeycombed with empty tombs."],
+  ["Tlos",                 "Lycian League · 3 votes",       36.5567, 29.4267, "tlos",        "inland",   "Continuously inhabited for almost four millennia. Bellerophon's tomb is here."],
+  ["Xanthos",              "Lycian capital · UNESCO",       36.3567, 29.3214, "xanthos",     "inland",   "Political heart of the Lycian League; the city chose mass suicide over surrender twice."],
+  ["Patara",               "Federal capital",               36.2614, 29.3164, "patara",      "coast",    "Chief harbour of Lycia, with the world's oldest dated lighthouse."],
+  ["Antiphellos (Kaş)",    "Kaş",                            36.2017, 29.6378, "antiphellos", "coast",    "Twin Lycian cities: Antiphellos at the harbour, Phellos on the ridge above."],
+  ["Phellos",              "ridge above Çukurbağ",          36.2375, 29.6300, "phellos",     "inland",   "The Archaic mother city of Antiphellos, at 850 m on a limestone ridge."],
+  ["Letoon",               "federal sanctuary · UNESCO",    36.3230, 29.2990, "letoon",      "inland",   "Religious heart of the Lycian League, where the trilingual stele was found."],
+  ["Kyaneai",              "above Demre",                   36.2389, 29.8167, "kyaneai",     "inland",   "The densest concentration of sarcophagi anywhere in Lycia — a stone forest."],
+  ["Kekova area",          "Simena · Aperlai · Teimioussa", 36.1833, 29.8500, "kekova",      "coast",    "Three Lycian ports and one Byzantine settlement on a sheltered strait."],
+  ["Myra",                 "modern Demre · 3 votes",        36.2587, 29.9851, "myra",        "coast",    "Roman theatre, dense rock-cut tombs, and the original church of Saint Nicholas."],
+  ["Andriake",             "harbour of Myra",               36.2486, 29.9536, "andriake",    "coast",    "Myra's port, home to Hadrian's Granary and a small but excellent on-site museum."],
+  ["Limyra",               "dynast Pericle's capital",      36.3450, 30.1714, "limyra",      "inland",   "The eastern Lycian centre, with the Heroon of Pericle and the cenotaph of Gaius Caesar."],
+  ["Arykanda",             "the \"Delphi of Lycia\"",        36.5108, 30.1597, "arykanda",    "inland",   "A spectacular Lycian city terraced down a steep mountainside above the Aykırı valley."],
+  ["Olympos",              "Çıralı / Olympos",              36.3933, 30.4717, "olympos",     "coast",    "A pirate-friendly port in a river ravine, with the Chimaera flames above."],
+  ["Phaselis",             "near Kemer",                    36.5208, 30.5517, "phaselis",    "coast",    "Three harbours, one city. Welcomed Alexander the Great with a golden crown."],
+  ["Termessos",            "Pisidian highland",             36.9842, 30.4664, "termessos",   "highland", "Alexander called it the eagle's nest and chose not to attack."],
+  ["Sagalassos",           "Pisidian highland",             37.6789, 30.5217, "sagalassos",  "highland", "Spectacular upland city at 1,500 m, with a reconstructed Antonine nymphaeum that still flows."],
+];
+
+const map = L.map("lycia-map", { center: [36.7, 29.9], zoom: 8, scrollWheelZoom: true });
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 18,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+}).addTo(map);
+
+const group = L.featureGroup();
+CITIES.forEach(([name, ancient, lat, lng, slug, geo, blurb]) => {
+  const icon = L.divIcon({
+    className: "",
+    html: `<div class="lycia-marker ${geo}"></div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 22],
+    popupAnchor: [0, -20],
+  });
+  const marker = L.marker([lat, lng], { icon, title: name }).addTo(map);
+  marker.bindPopup(`
+    <span class="popup-title">${name}</span>
+    <span class="popup-ancient">${ancient}</span>
+    <p class="popup-desc">${blurb}</p>
+    <a class="popup-link" href="cities/${slug}.html">Read more →</a>
+  `);
+  group.addLayer(marker);
+});
+map.fitBounds(group.getBounds().pad(0.15));
+</script>
 </body>
 </html>
